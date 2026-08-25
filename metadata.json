@@ -1,0 +1,6 @@
+{
+  "name": "Workshop Skill Manager",
+  "description": "A production-ready skill and capability management platform for discrete manufacturing, featuring dynamic gap analysis and MES integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
