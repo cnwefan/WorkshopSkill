@@ -1,5 +1,5 @@
 export type UserRole = 'WORKER' | 'MENTOR' | 'SUPERVISOR' | 'HR_ADMIN' | 'QC' | 'SYS_ADMIN';
-export type AppView = 'DASHBOARD' | 'SKILL_ROADMAP' | 'TRAINING_PLANS' | 'TEAM_MATRIX' | 'ASSESSMENTS' | 'AUDIT_LOGS' | 'SETTINGS';
+export type AppView = 'DASHBOARD' | 'SKILL_ROADMAP' | 'TRAINING_PLANS' | 'TEAM_MATRIX' | 'ASSESSMENTS' | 'AUDIT_LOGS' | 'SETTINGS' | 'PLAN_DETAILS' | 'OPERATOR_LIST' | 'APPROVAL_CENTER';
 
 export interface User {
   id: string;

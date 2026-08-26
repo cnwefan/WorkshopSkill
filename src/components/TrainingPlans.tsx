@@ -34,7 +34,11 @@ const mockPlans = [
   },
 ];
 
-export function TrainingPlans() {
+interface TrainingPlansProps {
+  onDetails?: () => void;
+}
+
+export function TrainingPlans({ onDetails }: TrainingPlansProps) {
   return (
     <div className="space-y-6">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -122,7 +126,10 @@ export function TrainingPlans() {
                 <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all">
                   <MoreVertical className="w-5 h-5" />
                 </button>
-                <button className="flex items-center gap-1 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-all">
+                <button 
+                  onClick={onDetails}
+                  className="flex items-center gap-1 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-all"
+                >
                   Details <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

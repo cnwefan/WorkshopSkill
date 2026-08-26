@@ -7,6 +7,10 @@ import { MentorDashboard } from './components/MentorDashboard';
 import { SupervisorDashboard } from './components/SupervisorDashboard';
 import { SkillRoadmap } from './components/SkillRoadmap';
 import { TrainingPlans } from './components/TrainingPlans';
+import { TrainingPlanDetails } from './components/TrainingPlanDetails';
+import { OperatorList } from './components/OperatorList';
+import { ApprovalCenter } from './components/ApprovalCenter';
+import { SkillMatrix } from './components/SkillMatrix';
 
 export default function App() {
   const [currentRole, setCurrentRole] = useState<UserRole>('SUPERVISOR');
@@ -21,7 +25,26 @@ export default function App() {
   const renderContent = () => {
     // Check specific views first
     if (currentView === 'SKILL_ROADMAP') return <SkillRoadmap />;
-    if (currentView === 'TRAINING_PLANS') return <TrainingPlans />;
+    if (currentView === 'TRAINING_PLANS') return <TrainingPlans onDetails={() => setCurrentView('PLAN_DETAILS')} />;
+    if (currentView === 'PLAN_DETAILS') return <TrainingPlanDetails onBack={() => setCurrentView('TRAINING_PLANS')} />;
+    if (currentView === 'OPERATOR_LIST') return <OperatorList onBack={() => setCurrentView('DASHBOARD')} />;
+    if (currentView === 'APPROVAL_CENTER') return <ApprovalCenter onBack={() => setCurrentView('DASHBOARD')} />;
+    if (currentView === 'TEAM_MATRIX') return <div className="space-y-6"><h1 className="text-2xl font-bold">Team Matrix</h1><SkillMatrix /></div>;
+    if (currentView === 'ASSESSMENTS') return <div className="p-12 text-center bg-white rounded-2xl border border-slate-200">
+      <h2 className="text-xl font-bold mb-2">Assessments Module</h2>
+      <p className="text-slate-500 mb-4">Module is under development for this prototype.</p>
+      <button onClick={() => setCurrentView('DASHBOARD')} className="text-indigo-600 font-bold hover:underline">Back to Dashboard</button>
+    </div>;
+    if (currentView === 'AUDIT_LOGS') return <div className="p-12 text-center bg-white rounded-2xl border border-slate-200">
+      <h2 className="text-xl font-bold mb-2">System Audit Logs</h2>
+      <p className="text-slate-500 mb-4">Module is under development for this prototype.</p>
+      <button onClick={() => setCurrentView('DASHBOARD')} className="text-indigo-600 font-bold hover:underline">Back to Dashboard</button>
+    </div>;
+    if (currentView === 'SETTINGS') return <div className="p-12 text-center bg-white rounded-2xl border border-slate-200">
+      <h2 className="text-xl font-bold mb-2">Settings</h2>
+      <p className="text-slate-500 mb-4">Module is under development for this prototype.</p>
+      <button onClick={() => setCurrentView('DASHBOARD')} className="text-indigo-600 font-bold hover:underline">Back to Dashboard</button>
+    </div>;
 
     // Fallback to role-based dashboards
     switch (currentRole) {

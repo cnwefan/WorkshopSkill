@@ -23,6 +23,7 @@ import {
   BarChart as BarChartIcon
 } from 'lucide-react';
 import { SkillMatrix } from './SkillMatrix';
+import { cn } from '../lib/utils';
 
 const mockStats = [
   { label: 'Total Operators', value: '42', change: '+2', trend: 'up' },
@@ -70,14 +71,21 @@ export function SupervisorDashboard({ role, onViewChange }: SupervisorDashboardP
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {mockStats.map((stat, idx) => (
-          <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group">
+          <div 
+            key={idx} 
+            onClick={() => idx === 0 ? onViewChange('OPERATOR_LIST') : idx === 3 ? onViewChange('APPROVAL_CENTER') : null}
+            className={cn(
+              "bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group transition-all",
+              (idx === 0 || idx === 3) && "cursor-pointer hover:border-indigo-300 hover:shadow-md"
+            )}
+          >
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{stat.label}</h3>
             <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
             <div className={`mt-2 text-xs font-bold ${stat.trend === 'up' ? 'text-green-600' : stat.trend === 'down' ? 'text-blue-600' : 'text-red-600'}`}>
               {stat.change}
             </div>
             <div className={`absolute -right-2 -bottom-2 opacity-5 group-hover:scale-110 transition-transform`}>
-              {idx === 0 ? <Users className="w-16 h-16" /> : <BarChart className="w-16 h-16" />}
+              {idx === 0 ? <Users className="w-16 h-16" /> : <BarChartIcon className="w-16 h-16" />}
             </div>
           </div>
         ))}
@@ -98,12 +106,18 @@ export function SupervisorDashboard({ role, onViewChange }: SupervisorDashboardP
                   <p className="text-sm font-bold text-slate-900 truncate">Li Wei</p>
                   <p className="text-xs text-slate-500">Precision Welding - L2</p>
                 </div>
-                <button className="opacity-0 group-hover:opacity-100 p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all">
+                <button 
+                  onClick={() => onViewChange('APPROVAL_CENTER')}
+                  className="opacity-0 group-hover:opacity-100 p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                >
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             ))}
-            <button className="w-full py-2 text-sm font-bold text-indigo-600 hover:text-indigo-700 text-center mt-2 border-t border-slate-50 pt-4">
+            <button 
+              onClick={() => onViewChange('APPROVAL_CENTER')}
+              className="w-full py-2 text-sm font-bold text-indigo-600 hover:text-indigo-700 text-center mt-2 border-t border-slate-50 pt-4"
+            >
               View All Approvals
             </button>
           </div>

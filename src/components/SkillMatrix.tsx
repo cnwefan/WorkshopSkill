@@ -1,13 +1,10 @@
 import React from 'react';
 import { cn } from '../lib/utils';
+import { mockDb } from '../db/mockDb';
 
-const stations = ['Welding', 'Assy-01', 'Assy-02', 'Quality', 'Packing'];
-const employees = ['Zhang Wei', 'Li Wei', 'Chen Hao', 'Wang Yang', 'Li Meili', 'Sun Qiang'];
-
-const mockMatrix = employees.map(emp => ({
-  name: emp,
-  skills: stations.map(() => Math.floor(Math.random() * 5)) // Level 0-4
-}));
+const stations = mockDb.getStations();
+const users = mockDb.users;
+const skills = mockDb.getSkills();
 
 export function SkillMatrix() {
   return (
@@ -20,33 +17,40 @@ export function SkillMatrix() {
           <thead>
             <tr>
               <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">Employee</th>
-              {stations.map(s => (
-                <th key={s} className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-center border-b border-slate-100">
-                  {s}
+              {skills.slice(0, 5).map(s => (
+                <th key={s.id} className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-center border-b border-slate-100">
+                  {s.name}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {mockMatrix.map((row, i) => (
-              <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                <td className="px-6 py-4 text-sm font-bold text-slate-900 border-b border-slate-50">{row.name}</td>
-                {row.skills.map((level, j) => (
-                  <td key={j} className="px-6 py-4 text-center border-b border-slate-50">
-                    <div className={cn(
-                      "inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold text-sm transition-all",
-                      level === 0 ? "bg-slate-100 text-slate-400" :
-                      level === 1 ? "bg-blue-50 text-blue-600" :
-                      level === 2 ? "bg-indigo-100 text-indigo-700" :
-                      level === 3 ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" :
-                      "bg-emerald-600 text-white shadow-md shadow-emerald-100"
-                    )}>
-                      {level}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {users.map((user, i) => {
+              const userSkills = mockDb.getEmployeeSkills(user.id);
+              return (
+                <tr key={user.id} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="px-6 py-4 text-sm font-bold text-slate-900 border-b border-slate-50">{user.realName}</td>
+                  {skills.slice(0, 5).map((skill) => {
+                    const skillData = userSkills.find(s => s.skillId === skill.id);
+                    const level = skillData ? skillData.currentLevel : 0;
+                    return (
+                      <td key={skill.id} className="px-6 py-4 text-center border-b border-slate-50">
+                        <div className={cn(
+                          "inline-flex items-center justify-center w-8 h-8 rounded-lg font-bold text-sm transition-all",
+                          level === 0 ? "bg-slate-100 text-slate-400" :
+                          level === 1 ? "bg-blue-50 text-blue-600" :
+                          level === 2 ? "bg-indigo-100 text-indigo-700" :
+                          level === 3 ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" :
+                          "bg-emerald-600 text-white shadow-md shadow-emerald-100"
+                        )}>
+                          {level}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
